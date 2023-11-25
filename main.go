@@ -24,7 +24,7 @@ var (
 	digicertURL = kingpin.Flag("digicert.url",
 		"Digicert API URL used to fetch data.").Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
 	digicertAPIKey = kingpin.Flag("digicert.api-key",
-		"Digicert API Key used to authentification.").Required().Envar("DIGICERT_API_KEY").String()
+		"Digicert API Key used to authentication.").Required().Envar("DIGICERT_API_KEY").String()
 )
 
 func main() {
