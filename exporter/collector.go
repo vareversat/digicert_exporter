@@ -52,7 +52,11 @@ func NewDigicertCollector(logger log.Logger,
 	}
 	resp, err := client.Do(req)
 	if err != nil || resp.StatusCode != 200 {
-		return nil, fmt.Errorf("failed to reach Digicert API: %s, status code %d", err, resp.StatusCode)
+		return nil, fmt.Errorf(
+			"failed to reach Digicert API: %s, status code %d",
+			err,
+			resp.StatusCode,
+		)
 	}
 	resp.Body.Close()
 
@@ -128,7 +132,9 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 		// A valid date must be in the future, or show all if showExpiredCertificates = true
 		if certificateExpireDate.After(time.Now()) || c.showExpiredCertificates {
 			// Test if the exporter already encounter this cert common name
-			if formatDateTimestamp(seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil).IsZero() {
+			if formatDateTimestamp(
+				seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil,
+			).IsZero() {
 				// If no, insert into the map
 				seenCertificationCommonName[certificateCommonName] = orderList.Orders[i]
 			} else {

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/alecthomas/kingpin/v2"
-	"github.com/prometheus/common/promlog/flag"
 	"net/http"
 	"os"
+
+	"github.com/alecthomas/kingpin/v2"
+	"github.com/prometheus/common/promlog/flag"
 
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
@@ -19,14 +20,20 @@ var (
 		"Port used to run the exporter.").Default(":10005").Envar("EXPORTER_PORT").String()
 	metricPath = kingpin.Flag("web.metrics-path",
 		"Path under which to expose metrics.").Default("/metrics").Envar("EXPORTER_PATH").String()
-	webMetrics = kingpin.Flag("web.exporter-metrics",
-		"Show the go and http system metrics for this exporter.").Default("false").Envar("EXPORTER_ENABLE_EXPORTER_METRICS").Bool()
-	digicertURL = kingpin.Flag("digicert.url",
-		"Digicert API URL used to fetch data.").Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
+	webMetrics = kingpin.Flag(
+		"web.exporter-metrics",
+		"Show the go and http system metrics for this exporter.",
+	).Default("false").Envar("EXPORTER_ENABLE_EXPORTER_METRICS").Bool()
+	digicertURL = kingpin.Flag(
+		"digicert.url",
+		"Digicert API URL used to fetch data.",
+	).Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
 	digicertAPIKey = kingpin.Flag("digicert.api-key",
 		"Digicert API Key used to authentication.").Required().Envar("DIGICERT_API_KEY").String()
-	digicertShowExpiredCertificates = kingpin.Flag("digicert.show-expired-certificates",
-		"Show expired certificate.").Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
+	digicertShowExpiredCertificates = kingpin.Flag(
+		"digicert.show-expired-certificates",
+		"Show expired certificate.",
+	).Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
 )
 
 func main() {
@@ -40,10 +47,16 @@ func main() {
 
 	logger := promlog.New(promlogConfig)
 
-	level.Info(logger).Log("msg", "Starting digicert_exporter", "port", listenAddress, "path", metricPath, "version", version.Info())
+	level.Info(logger).
+		Log("msg", "Starting digicert_exporter", "port", listenAddress, "path", metricPath, "version", version.Info())
 	level.Debug(logger).Log("msg", "Build context", "build_context", version.BuildContext())
 
-	collector, err := exporter.NewDigicertCollector(logger, *digicertURL, *digicertAPIKey, *digicertShowExpiredCertificates)
+	collector, err := exporter.NewDigicertCollector(
+		logger,
+		*digicertURL,
+		*digicertAPIKey,
+		*digicertShowExpiredCertificates,
+	)
 	if err != nil {
 		level.Error(logger).Log("err", err)
 		os.Exit(1)
