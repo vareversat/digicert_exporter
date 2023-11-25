@@ -26,7 +26,7 @@ var (
 	digicertAPIKey = kingpin.Flag("digicert.api-key",
 		"Digicert API Key used to authentication.").Required().Envar("DIGICERT_API_KEY").String()
 	digicertShowExpiredCertificates = kingpin.Flag("digicert.show-expired-certificates",
-		"Show expîred certificate.").Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
+		"Show expired certificate.").Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
 )
 
 func main() {
