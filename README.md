@@ -19,7 +19,7 @@ In order to run this exporter, you need :
 - With go installed :
 
 ```shell
-export DIGICERT_API_KEY=my-key && go run .
+export DIGICERT_API_KEY=my-key && make run 
 ```
 
 - With Docker installed :
