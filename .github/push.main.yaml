@@ -1,0 +1,19 @@
+name: Workflow - Push on origin/main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  go-lint:
+    uses: ./.github/workflows/go.lint.action.yaml
+    with:
+      go_version: '1.21.4'
+  go-test:
+    uses: ./.github/workflows/go.test.action.yaml
+    with:
+      go_version: '1.21.4'
+  docker-build-push:
+    needs: [ go-lint, go-test ]
+    uses: ./.github/workflows/docker.build-push.action.yaml

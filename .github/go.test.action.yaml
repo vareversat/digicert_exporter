@@ -1,0 +1,28 @@
+name: Action - Go test
+
+on:
+  workflow_call:
+    inputs:
+      go_version:
+        description: 'The Go version used (ex: 1.21.4)'
+        required: true
+        type: string
+
+jobs:
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v4.1.1
+      - name: 'Setup Go action'
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: ${{ inputs.go_version }}
+      - name: 'Go test (with coverage)'
+        run: go test ./... -covermode=atomic -coverprofile='coverage.out'
+      - name: 'Upload coverage report'
+        uses: codecov/codecov-action@v3.1.4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.out

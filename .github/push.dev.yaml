@@ -1,0 +1,16 @@
+name: Workflow - Push on origin/dev
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  go-lint:
+    uses: ./.github/workflows/go.lint.action.yaml
+    with:
+      go_version: '1.21.4'
+  go-test:
+    uses: ./.github/workflows/go.test.action.yaml
+    with:
+      go_version: '1.21.4'
