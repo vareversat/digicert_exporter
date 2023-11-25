@@ -21,9 +21,9 @@ var (
 		"Path under which to expose metrics.").Default("/metrics").Envar("EXPORTER_PATH").String()
 	webMetrics = kingpin.Flag("web.exporter-metrics",
 		"Show the go and http system metrics for this exporter.").Default("false").Envar("EXPORTER_ENABLE_EXPORTER_METRICS").Bool()
-	digicertURL = kingpin.Flag("exporter.digicert-url",
+	digicertURL = kingpin.Flag("digicert.url",
 		"Digicert API URL used to fetch data.").Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
-	digicertAPIKey = kingpin.Flag("exporter.digicert-api-key",
+	digicertAPIKey = kingpin.Flag("digicert.api-key",
 		"Digicert API Key used to authentification.").Required().Envar("DIGICERT_API_KEY").String()
 )
 
