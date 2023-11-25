@@ -8,8 +8,11 @@ Currently, the exporter use the **v2** version of the **/order/certificate** RES
 
 ## Prerequisites
 
-In order to run this exporter, you need a valid Digicert account **and** create an API
-key [here](https://www.digicert.com/secure/automation/api-keys/) with the **View Only** permission
+In order to run this exporter, you need :
+
+1) A valid Digicert account **and** create an API
+   key [here](https://www.digicert.com/secure/automation/api-keys/) with the **View Only** permission
+2) Docker and/or Go v1.21 installed on your computer
 
 ## To run it
 
