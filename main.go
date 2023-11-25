@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	listenAddress = kingpin.Flag("web.listen-address",
+	listenAddress = kingpin.Flag("web.listen-port",
 		"Port used to run the exporter.").Default(":10005").Envar("EXPORTER_PORT").String()
 	metricPath = kingpin.Flag("web.metrics-path",
 		"Path under which to expose metrics.").Default("/metrics").Envar("EXPORTER_PATH").String()
