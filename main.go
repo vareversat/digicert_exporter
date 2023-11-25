@@ -51,7 +51,7 @@ func main() {
 	promRegistry.MustRegister(collector)
 	httpHandler := promhttp.HandlerFor(promRegistry, promhttp.HandlerOpts{})
 	if *webMetrics {
-		httpHandler = promhttp.InstrumentMetricHandler(promRegistry, promhttp.Handler())
+		httpHandler = promhttp.InstrumentMetricHandler(promRegistry, httpHandler)
 	}
 	http.Handle(*metricPath, httpHandler)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
