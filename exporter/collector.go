@@ -16,12 +16,13 @@ import (
 const namespace = "digicert"
 
 type DigicertCollector struct {
-	digicertAPIEndpoint string
-	digicertAPIKey      string
-	up                  *prometheus.Desc
-	scrapeDuration      *prometheus.Desc
-	certificateExpire   *prometheus.Desc
-	logger              log.Logger
+	digicertAPIEndpoint     string
+	digicertAPIKey          string
+	showExpiredCertificates bool
+	up                      *prometheus.Desc
+	scrapeDuration          *prometheus.Desc
+	certificateExpire       *prometheus.Desc
+	logger                  log.Logger
 }
 
 func (c *DigicertCollector) Collect(ch chan<- prometheus.Metric) {
@@ -34,7 +35,10 @@ func (c *DigicertCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.certificateExpire
 }
 
-func NewDigicertCollector(logger log.Logger, digicertURL string, digicertAPIKey string) (*DigicertCollector, error) {
+func NewDigicertCollector(logger log.Logger,
+	digicertURL string,
+	digicertAPIKey string,
+	digicertShowExpiredCertificates bool) (*DigicertCollector, error) {
 
 	// Ping Digicert API
 	var client = http.Client{
@@ -56,9 +60,10 @@ func NewDigicertCollector(logger log.Logger, digicertURL string, digicertAPIKey 
 
 	// Build the collector
 	c := &DigicertCollector{
-		digicertAPIEndpoint: digicertURL,
-		digicertAPIKey:      digicertAPIKey,
-		logger:              logger,
+		digicertAPIEndpoint:     digicertURL,
+		digicertAPIKey:          digicertAPIKey,
+		showExpiredCertificates: digicertShowExpiredCertificates,
+		logger:                  logger,
 		up: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "api", "up"),
 			"Was the last Digicert API query successful.",
@@ -120,8 +125,8 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 		certificateCommonName := orderList.Orders[i].Certificate.CommonName
 		certificateExpireDate := formatDateTimestamp(orderList.Orders[i].Certificate.ValidUntil)
 
-		// A valid date must be in the future
-		if certificateExpireDate.After(time.Now()) {
+		// A valid date must be in the future, or show all if showExpiredCertificates = true
+		if certificateExpireDate.After(time.Now()) || c.showExpiredCertificates {
 			// Test if the exporter already encounter this cert common name
 			if formatDateTimestamp(seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil).IsZero() {
 				// If no, insert into the map
@@ -130,11 +135,9 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 				// If yes AND the new date is after the current one, replace it
 				if certificateExpireDate.After(formatDateTimestamp(seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil)) {
 					seenCertificationCommonName[certificateCommonName] = orderList.Orders[i]
-
 				}
 			}
 		}
-
 	}
 
 	for name, order := range seenCertificationCommonName {

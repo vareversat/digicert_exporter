@@ -25,6 +25,8 @@ var (
 		"Digicert API URL used to fetch data.").Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
 	digicertAPIKey = kingpin.Flag("digicert.api-key",
 		"Digicert API Key used to authentication.").Required().Envar("DIGICERT_API_KEY").String()
+	digicertShowExpiredCertificates = kingpin.Flag("digicert.show-expired-certificates",
+		"Show expîred certificate.").Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
 )
 
 func main() {
@@ -41,7 +43,7 @@ func main() {
 	level.Info(logger).Log("msg", "Starting digicert_exporter", "port", listenAddress, "path", metricPath, "version", version.Info())
 	level.Debug(logger).Log("msg", "Build context", "build_context", version.BuildContext())
 
-	collector, err := exporter.NewDigicertCollector(logger, *digicertURL, *digicertAPIKey)
+	collector, err := exporter.NewDigicertCollector(logger, *digicertURL, *digicertAPIKey, *digicertShowExpiredCertificates)
 	if err != nil {
 		level.Error(logger).Log("err", err)
 		os.Exit(1)
