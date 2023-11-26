@@ -3,6 +3,8 @@ package collector
 import (
 	"fmt"
 	"time"
+
+	_ "time/tzdata"
 )
 
 type OrderList struct {
@@ -27,5 +29,6 @@ type Organization struct {
 
 func formatDateTimestamp(strDate string) time.Time {
 	timestamp, _ := time.Parse(time.RFC3339, fmt.Sprintf("%sT00:00:00+00:00", strDate))
-	return timestamp
+	location, _ := time.LoadLocation("Europe/Paris")
+	return timestamp.In(location)
 }
