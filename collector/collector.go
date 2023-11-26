@@ -1,4 +1,4 @@
-package exporter
+package collector
 
 import (
 	"encoding/json"
@@ -131,7 +131,7 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 
 		// A valid date must be in the future, or show all if showExpiredCertificates = true
 		if certificateExpireDate.After(time.Now()) || c.showExpiredCertificates {
-			// Test if the exporter already encounter this cert common name
+			// Test if the collector already encounter this cert common name
 			if formatDateTimestamp(
 				seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil,
 			).IsZero() {

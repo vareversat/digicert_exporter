@@ -12,7 +12,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/version"
-	"github.com/vareversat/digicert_exporter/exporter"
+	"github.com/vareversat/digicert_exporter/collector"
 )
 
 var (
@@ -51,7 +51,7 @@ func main() {
 		Log("msg", "Starting digicert_exporter", "port", listenAddress, "path", metricPath, "version", version.Info())
 	level.Debug(logger).Log("msg", "Build context", "build_context", version.BuildContext())
 
-	collector, err := exporter.NewDigicertCollector(
+	digicertCollector, err := collector.NewDigicertCollector(
 		logger,
 		*digicertURL,
 		*digicertAPIKey,
@@ -63,7 +63,7 @@ func main() {
 	}
 
 	promRegistry := prometheus.NewRegistry()
-	promRegistry.MustRegister(collector)
+	promRegistry.MustRegister(digicertCollector)
 	httpHandler := promhttp.HandlerFor(promRegistry, promhttp.HandlerOpts{})
 	if *webMetrics {
 		httpHandler = promhttp.InstrumentMetricHandler(promRegistry, httpHandler)
