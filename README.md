@@ -44,13 +44,14 @@ docker build -t digicert_exporter . && docker run -e DIGICERT_API_KEY=my-key dig
 ./digicert_exporter --help
 ```
 
-| Flag                                      | Description                             | Default                                                  | Env vars                           |
-|-------------------------------------------|-----------------------------------------|----------------------------------------------------------|------------------------------------|
-| --log.level                               | Logging level                           | `info`                                                   | ❌                                  |
-| --log.format                              | Logging format                          | `logfmt`                                                 | ❌                                  |
-| --version                                 | Show application version                |                                                          | ❌                                  |
-| --web.listen-port                         | Port used to run the exporter           | `:10005`                                                 | EXPORTER_PORT                      |
-| --web.metrics-path                        | Path under which to expose metrics      | `/metrics`                                               | EXPORTER_PATH                      |
-| --digicert.url                            | Digicert API URL used to fetch data     | `https://www.digicert.com/services/v2/order/certificate` | DIGICERT_URL                       |
-| --digicert.api-key                        | Digicert API Key used to authentication | `""`                                                     | DIGICERT_API_KEY                   |
-| --[no-]digicert.show-expired-certificates | Show expired certificate                | `false`                                                  | DIGICERT_SHOW_EXPIRED_CERTIFICATES |
+| Flag                                      | Description                                           | Default                                                  | Env vars                           |
+|-------------------------------------------|-------------------------------------------------------|----------------------------------------------------------|------------------------------------|
+| --log.level                               | Logging level                                         | `info`                                                   | ❌                                  |
+| --log.format                              | Logging format                                        | `logfmt`                                                 | ❌                                  |
+| --version                                 | Show application version                              |                                                          | ❌                                  |
+| --web.listen-port                         | Port used to run the exporter                         | `:10005`                                                 | EXPORTER_PORT                      |
+| --web.metrics-path                        | Path under which to expose metrics                    | `/metrics`                                               | EXPORTER_PATH                      |
+| --digicert.url                            | Digicert API URL used to fetch data                   | `https://www.digicert.com/services/v2/order/certificate` | DIGICERT_URL                       |
+| --digicert.api-key                        | Digicert API Key used to authentication               | `""`                                                     | DIGICERT_API_KEY                   |
+| --[no-]digicert.mock                      | Use mocked data as Digicert API response. (mock.json) | `false`                                                  | DIGICERT_MOCK                      |
+| --[no-]digicert.show-expired-certificates | Show expired certificate                              | `false`                                                  | DIGICERT_SHOW_EXPIRED_CERTIFICATES |

@@ -1,13 +1,11 @@
 package collector
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/go-kit/log/level"
 	"strconv"
 	"time"
 
 	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -17,6 +15,7 @@ type DigicertCollector struct {
 	digicertAPIEndpoint     string
 	digicertAPIKey          string
 	showExpiredCertificates bool
+	digicertMock            bool
 	up                      *prometheus.Desc
 	scrapeDuration          *prometheus.Desc
 	certificateExpire       *prometheus.Desc
@@ -36,35 +35,15 @@ func (c *DigicertCollector) Describe(ch chan<- *prometheus.Desc) {
 func NewDigicertCollector(logger log.Logger,
 	digicertURL string,
 	digicertAPIKey string,
-	digicertShowExpiredCertificates bool) (*DigicertCollector, error) {
-
-	// Ping Digicert API
-	var client = http.Client{
-		Timeout: 5 * time.Second,
-	}
-	req, err := http.NewRequest("HEAD", digicertURL, nil)
-	req.Header.Add("X-DC-DEVKEY", digicertAPIKey)
-	req.Header.Add("Content-Type", "application/json")
-	if err != nil {
-		return nil, fmt.Errorf("failed to create http.NewRequest: %s", err)
-	}
-	resp, err := client.Do(req)
-	if err != nil || resp.StatusCode != 200 {
-		return nil, fmt.Errorf(
-			"failed to reach Digicert API: %s, status code %d",
-			err,
-			resp.StatusCode,
-		)
-	}
-	resp.Body.Close()
-
-	level.Info(logger).Log("msg", "Digicert API is reachable")
+	digicertShowExpiredCertificates bool,
+	digicertMock bool) (*DigicertCollector, error) {
 
 	// Build the collector
 	c := &DigicertCollector{
 		digicertAPIEndpoint:     digicertURL,
 		digicertAPIKey:          digicertAPIKey,
 		showExpiredCertificates: digicertShowExpiredCertificates,
+		digicertMock:            digicertMock,
 		logger:                  logger,
 		up: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "api", "up"),
@@ -82,6 +61,8 @@ func NewDigicertCollector(logger log.Logger,
 			[]string{"order_id", "certificate_id", "certificate_common_name", "organization"}, nil,
 		),
 	}
+
+	level.Info(logger).Log("msg", "Exporter started correctly")
 
 	return c, nil
 }

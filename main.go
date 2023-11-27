@@ -29,11 +29,15 @@ var (
 		"Digicert API URL used to fetch data.",
 	).Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
 	digicertAPIKey = kingpin.Flag("digicert.api-key",
-		"Digicert API Key used to authentication.").Required().Envar("DIGICERT_API_KEY").String()
+		"Digicert API Key used to authentication.").Envar("DIGICERT_API_KEY").String()
 	digicertShowExpiredCertificates = kingpin.Flag(
 		"digicert.show-expired-certificates",
 		"Show expired certificate.",
 	).Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
+	digicertMock = kingpin.Flag(
+		"digicert.mock",
+		"Use mocked data as Digicert API response.",
+	).Default("false").Envar("DIGICERT_MOCK").Bool()
 )
 
 func main() {
@@ -56,6 +60,7 @@ func main() {
 		*digicertURL,
 		*digicertAPIKey,
 		*digicertShowExpiredCertificates,
+		*digicertMock,
 	)
 	if err != nil {
 		level.Error(logger).Log("err", err)
