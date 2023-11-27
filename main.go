@@ -16,39 +16,41 @@ import (
 )
 
 var (
-	listenAddress = kingpin.Flag("web.listen-port",
-		"Port used to run the exporter.").Default(":10005").Envar("EXPORTER_PORT").String()
-	metricPath = kingpin.Flag("web.metrics-path",
-		"Path under which to expose metrics.").Default("/metrics").Envar("EXPORTER_PATH").String()
-	webMetrics = kingpin.Flag(
-		"web.exporter-metrics",
-		"Show the go and http system metrics for this exporter.",
-	).Default("false").Envar("EXPORTER_ENABLE_EXPORTER_METRICS").Bool()
-	digicertURL = kingpin.Flag(
+	app         = kingpin.New("digicert_exporter", "🔥 A Prometheus exporter to monitor Digicert certificates.")
+	digicertURL = app.Flag(
 		"digicert.url",
 		"Digicert API URL used to fetch data.",
 	).Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
-	digicertAPIKey = kingpin.Flag("digicert.api-key",
+	digicertAPIKey = app.Flag("digicert.api-key",
 		"Digicert API Key used to authentication.").Envar("DIGICERT_API_KEY").String()
-	digicertShowExpiredCertificates = kingpin.Flag(
+	digicertShowExpiredCertificates = app.Flag(
 		"digicert.show-expired-certificates",
 		"Show expired certificate.",
 	).Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
-	digicertMock = kingpin.Flag(
+	digicertMock = app.Flag(
 		"digicert.mock",
 		"Use mocked data as Digicert API response.",
 	).Default("false").Envar("DIGICERT_MOCK").Bool()
+	listenAddress = app.Flag("web.listen-port",
+		"Port used to run the exporter.").Default(":10005").Envar("EXPORTER_PORT").String()
+	metricPath = app.Flag("web.metrics-path",
+		"Path under which to expose metrics.").Default("/metrics").Envar("EXPORTER_PATH").String()
+	webMetrics = app.Flag(
+		"web.exporter-metrics",
+		"Show the go and http system metrics for this exporter.",
+	).Default("false").Envar("EXPORTER_ENABLE_EXPORTER_METRICS").Bool()
 )
 
 func main() {
 	promlogConfig := &promlog.Config{}
-	flag.AddFlags(kingpin.CommandLine, promlogConfig)
+	flag.AddFlags(app, promlogConfig)
 
-	kingpin.Version(version.Print("digicert_exporter"))
 	kingpin.CommandLine.UsageWriter(os.Stdout)
-	kingpin.HelpFlag.Short('h')
-	kingpin.Parse()
+	app.Version(version.Print("digicert_exporter"))
+	app.VersionFlag.Short('v')
+	app.HelpFlag.Short('h')
 
+	kingpin.MustParse(app.Parse(os.Args[1:]))
 	logger := promlog.New(promlogConfig)
 
 	level.Info(logger).
