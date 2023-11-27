@@ -126,20 +126,20 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 	seenCertificationCommonName := make(map[string]Order)
 
 	for i := 0; i < len(orderList.Orders); i++ {
-		certificateCommonName := orderList.Orders[i].Certificate.CommonName
-		certificateExpireDate := formatDateTimestamp(orderList.Orders[i].Certificate.ValidUntil)
+		order := orderList.Orders[i]
+		certificateCommonName := order.Certificate.CommonName
+		certificateExpireDate := order.FormatDateTimestamp()
 
 		// A valid date must be in the future, or show all if showExpiredCertificates = true
 		if certificateExpireDate.After(time.Now()) || c.showExpiredCertificates {
+			seenOrder := seenCertificationCommonName[certificateCommonName]
 			// Test if the collector already encounter this cert common name
-			if formatDateTimestamp(
-				seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil,
-			).IsZero() {
+			if seenOrder.FormatDateTimestamp().IsZero() {
 				// If no, insert into the map
 				seenCertificationCommonName[certificateCommonName] = orderList.Orders[i]
 			} else {
 				// If yes AND the new date is after the current one, replace it
-				if certificateExpireDate.After(formatDateTimestamp(seenCertificationCommonName[certificateCommonName].Certificate.ValidUntil)) {
+				if certificateExpireDate.After(seenOrder.FormatDateTimestamp()) {
 					seenCertificationCommonName[certificateCommonName] = orderList.Orders[i]
 				}
 			}
@@ -151,7 +151,7 @@ func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.
 			ch <- prometheus.MustNewConstMetric(
 				c.certificateExpire,
 				prometheus.UntypedValue,
-				float64(formatDateTimestamp(order.Certificate.ValidUntil).Unix()),
+				float64(order.FormatDateTimestamp().Unix()),
 				strconv.Itoa(order.ID),
 				strconv.Itoa(order.Certificate.ID),
 				name,
