@@ -1,9 +1,7 @@
 package collector
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strconv"
 	"time"
@@ -26,7 +24,7 @@ type DigicertCollector struct {
 }
 
 func (c *DigicertCollector) Collect(ch chan<- prometheus.Metric) {
-	c.HitDigicertAPIAndUpdateMetrics(ch)
+	c.UpdateMetrics(ch)
 }
 
 func (c *DigicertCollector) Describe(ch chan<- *prometheus.Desc) {
@@ -88,39 +86,17 @@ func NewDigicertCollector(logger log.Logger,
 	return c, nil
 }
 
-func (c *DigicertCollector) HitDigicertAPIAndUpdateMetrics(ch chan<- prometheus.Metric) {
+func (c *DigicertCollector) UpdateMetrics(ch chan<- prometheus.Metric) {
 
 	start := time.Now()
 
-	var orderList OrderList
-	// Load channel stats
-	req, err := http.NewRequest("GET", c.digicertAPIEndpoint, nil)
-	if err != nil {
-		level.Error(c.logger).Log("msg", err)
-	}
+	orderList, err := c.FetchDigicertData()
 
-	// This one line implements the authentication required for the task.
-	req.Header.Add("X-DC-DEVKEY", c.digicertAPIKey)
-	req.Header.Add("Content-Type", "application/json")
-	// Make request and show output.
-	client := &http.Client{}
-	resp, err := client.Do(req)
 	if err != nil {
 		ch <- prometheus.MustNewConstMetric(
 			c.up, prometheus.GaugeValue, 0,
 		)
-		level.Error(c.logger).Log("msg", err)
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	defer resp.Body.Close()
-	if err != nil {
-		level.Error(c.logger).Log("msg", err)
-	}
-
-	err = json.Unmarshal(body, &orderList)
-	if err != nil {
-		level.Error(c.logger).Log("msg", err)
+		return
 	}
 
 	seenCertificationCommonName := make(map[string]Order)
