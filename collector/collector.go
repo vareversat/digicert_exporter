@@ -1,9 +1,11 @@
 package collector
 
 import (
-	"github.com/go-kit/log/level"
+	"os"
 	"strconv"
 	"time"
+
+	"github.com/go-kit/log/level"
 
 	"github.com/go-kit/log"
 	"github.com/prometheus/client_golang/prometheus"
@@ -15,7 +17,7 @@ type DigicertCollector struct {
 	digicertAPIEndpoint     string
 	digicertAPIKey          string
 	showExpiredCertificates bool
-	digicertMock            bool
+	useMockedData           bool
 	up                      *prometheus.Desc
 	scrapeDuration          *prometheus.Desc
 	certificateExpire       *prometheus.Desc
@@ -31,19 +33,17 @@ func (c *DigicertCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.scrapeDuration
 	ch <- c.certificateExpire
 }
-
 func NewDigicertCollector(logger log.Logger,
 	digicertURL string,
 	digicertAPIKey string,
-	digicertShowExpiredCertificates bool,
-	digicertMock bool) (*DigicertCollector, error) {
+	digicertShowExpiredCertificates bool) (*DigicertCollector, error) {
 
 	// Build the collector
 	c := &DigicertCollector{
 		digicertAPIEndpoint:     digicertURL,
 		digicertAPIKey:          digicertAPIKey,
 		showExpiredCertificates: digicertShowExpiredCertificates,
-		digicertMock:            digicertMock,
+		useMockedData:           digicertURL == "" && digicertAPIKey == "",
 		logger:                  logger,
 		up: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "api", "up"),
@@ -62,7 +62,17 @@ func NewDigicertCollector(logger log.Logger,
 		),
 	}
 
-	level.Info(logger).Log("msg", "Exporter started correctly")
+	if !c.useMockedData && (digicertURL == "" || digicertAPIKey == "") {
+		level.Error(logger).
+			Log("msg", "Either DIGICERT_URL or DIGICERT_API_KEY is missing. Exiting")
+		os.Exit(1)
+	} else {
+		level.Info(logger).Log("msg", "Exporter started correctly")
+	}
+
+	if c.useMockedData {
+		level.Warn(logger).Log("msg", "Using mock configuration (mock.json will be used)")
+	}
 
 	return c, nil
 }

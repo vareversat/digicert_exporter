@@ -28,7 +28,10 @@ type Organization struct {
 }
 
 func (o *Order) FormatDateTimestamp() time.Time {
-	timestamp, _ := time.Parse(time.RFC3339, fmt.Sprintf("%sT00:00:00+00:00", o.Certificate.ValidUntil))
+	timestamp, _ := time.Parse(
+		time.RFC3339,
+		fmt.Sprintf("%sT00:00:00+00:00", o.Certificate.ValidUntil),
+	)
 	location, _ := time.LoadLocation("Europe/Paris")
 	return timestamp.In(location)
 }

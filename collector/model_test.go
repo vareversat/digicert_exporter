@@ -1,9 +1,10 @@
 package collector
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFormatDateTimestamp(t *testing.T) {

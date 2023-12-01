@@ -16,7 +16,10 @@ import (
 )
 
 var (
-	app         = kingpin.New("digicert_exporter", "🔥 A Prometheus exporter to monitor Digicert certificates.")
+	app = kingpin.New(
+		"digicert_exporter",
+		"🔥 A Prometheus exporter to monitor Digicert certificates.",
+	)
 	digicertURL = app.Flag(
 		"digicert.url",
 		"Digicert API URL used to fetch data.",
@@ -27,10 +30,6 @@ var (
 		"digicert.show-expired-certificates",
 		"Show expired certificate.",
 	).Default("false").Envar("DIGICERT_SHOW_EXPIRED_CERTIFICATES").Bool()
-	digicertMock = app.Flag(
-		"digicert.mock",
-		"Use mocked data as Digicert API response.",
-	).Default("false").Envar("DIGICERT_MOCK").Bool()
 	listenAddress = app.Flag("web.listen-port",
 		"Port used to run the exporter.").Default(":10005").Envar("EXPORTER_PORT").String()
 	metricPath = app.Flag("web.metrics-path",
@@ -62,7 +61,6 @@ func main() {
 		*digicertURL,
 		*digicertAPIKey,
 		*digicertShowExpiredCertificates,
-		*digicertMock,
 	)
 	if err != nil {
 		level.Error(logger).Log("err", err)

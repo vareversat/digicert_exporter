@@ -3,17 +3,18 @@ package collector
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-kit/log/level"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/go-kit/log/level"
 )
 
 func (c *DigicertCollector) FetchDigicertData() (*OrderList, error) {
 
 	var orderList OrderList
 
-	if c.digicertMock {
+	if c.useMockedData {
 		// Open data file
 		jsonFile, err := os.Open("mock.json")
 		if err != nil {
@@ -29,7 +30,8 @@ func (c *DigicertCollector) FetchDigicertData() (*OrderList, error) {
 
 		err = json.Unmarshal(data, &orderList)
 		if err != nil {
-			level.Error(c.logger).Log("err", fmt.Sprintf("error while unmarshalling the body : %s", err))
+			level.Error(c.logger).
+				Log("err", fmt.Sprintf("error while unmarshalling the body : %s", err))
 			return nil, err
 		}
 
