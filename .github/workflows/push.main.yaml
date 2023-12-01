@@ -14,6 +14,8 @@ jobs:
     uses: ./.github/workflows/go.test.action.yaml
     with:
       go_version: '1.21.4'
-  docker-build-push:
+  go-build:
     needs: [ go-lint, go-test ]
-    uses: ./.github/workflows/docker.build-push.action.yaml
+    uses: ./.github/workflows/go.build.action.yaml
+    with:
+      go_version: '1.21.4'

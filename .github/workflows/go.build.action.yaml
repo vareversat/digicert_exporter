@@ -1,0 +1,26 @@
+name: Action - Go Build
+
+on:
+  workflow_call:
+    inputs:
+      go_version:
+        description: 'The Go version used (ex: 1.21.4)'
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v4.1.1
+      - name: 'Setup Go action'
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: ${{ inputs.go_version }}
+      - name: 'Go build (matrix)'
+        run: go build -o digicert_exporter -v
