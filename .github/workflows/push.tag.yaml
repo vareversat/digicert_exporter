@@ -1,0 +1,27 @@
+name: Workflow - Push tag
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  go-lint:
+    uses: ./.github/workflows/go.lint.action.yaml
+    with:
+      go_version: '1.21.x'
+  go-test:
+    uses: ./.github/workflows/go.test.action.yaml
+    with:
+      go_version: '1.21.x'
+  go-build:
+    needs: [ go-lint, go-test ]
+    uses: ./.github/workflows/go.build.action.yaml
+    with:
+      go_version: '1.21.x'
+  docker-build-push:
+    needs: [ go-build ]
+    uses: ./.github/workflows/docker.build-push.action.yaml
+  release:
+    needs: [ docker-build-push ]
+    uses: ./.github/workflows/docker.build-push.action.yaml

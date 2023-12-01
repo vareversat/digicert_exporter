@@ -1,0 +1,38 @@
+name: Action - Release
+
+on:
+  workflow_call:
+
+jobs:
+  changelog:
+    name: 'Craft the Changelog'
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+      - name: "Generate CHANGELOG.md"
+        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Upload CHANGELOG.md'
+        uses: actions/upload-artifact@v3
+        with:
+          name: changelog
+          path: CHANGELOG.md
+  release:
+    name: 'Publish the Release'
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+      - name: 'Download CHANGELOG.md'
+        uses: actions/download-artifact@v3
+        with:
+          name: changelog
+      - name: 'Generate Github release'
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "New release ! 📦"
+          body_path: CHANGELOG.md
