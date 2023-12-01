@@ -15,6 +15,16 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
+        include:
+          - os: windows-latest
+            os_small: win
+            arch: amd64
+          - os: ubuntu-latest
+            os_small: linux
+            arch: amd64
+          - os: macos-latest
+            os_small: darwin
+            arch: amd64
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v4.1.1
@@ -23,4 +33,9 @@ jobs:
         with:
           go-version: ${{ inputs.go_version }}
       - name: 'Go build (matrix)'
-        run: go build -o digicert_exporter -v
+        run: go build -o digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }} -v
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }}
+          path: digicert_exporter_*
