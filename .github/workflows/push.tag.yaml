@@ -23,5 +23,5 @@ jobs:
     needs: [ go-build ]
     uses: ./.github/workflows/docker.build-push.action.yaml
   release:
-    needs: [ docker-build-push ]
-    uses: ./.github/workflows/docker.build-push.action.yaml
+    needs: [ go-build ]
+    uses: ./.github/workflows/release.action.yaml
