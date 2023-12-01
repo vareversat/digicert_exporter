@@ -13,11 +13,11 @@ all: deps test build
 
 # Build the application
 build:
-	$(GOCMD) build -o $(BINARY_NAME_WIN) -v
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOCMD) build -o $(BINARY_NAME_UNIX) -v
 
 # Build for Linux
-build-linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOCMD) build -o $(BINARY_NAME_UNIX) -v
+build-win:
+	$(GOCMD) build -o $(BINARY_NAME_WIN) -v
 
 # Clean the build artifacts
 clean:
