@@ -31,10 +31,8 @@ jobs:
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
-      - name: 'Download CHANGELOG.md'
+      - name: 'Download all artifacts'
         uses: actions/download-artifact@v3
-        with:
-          name: changelog
       - name: 'Generate Github release'
         uses: softprops/action-gh-release@v1
         with:
