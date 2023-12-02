@@ -39,4 +39,4 @@ jobs:
           name: 'New release (${{ github.ref_name }}) ! 📦'
           body_path: changelog/CHANGELOG.md
           files: |
-            digicert_exporter_*
+            binaries/*
