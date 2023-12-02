@@ -38,5 +38,5 @@ jobs:
       - name: 'Generate Github release'
         uses: softprops/action-gh-release@v1
         with:
-          name: "New release ! 📦"
+          name: 'New release (${{ github.ref_name }}) ! 📦'
           body_path: CHANGELOG.md
