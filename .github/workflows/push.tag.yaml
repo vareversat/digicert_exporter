@@ -20,7 +20,7 @@ jobs:
     with:
       go_version: '1.21.x'
   docker-build-push:
-    needs: [ go-build ]
+    needs: [ go-lint, go-test ]
     uses: ./.github/workflows/docker.build-push.action.yaml
   release:
     needs: [ go-build ]
