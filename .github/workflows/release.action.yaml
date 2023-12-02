@@ -37,6 +37,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: 'New release (${{ github.ref_name }}) ! 📦'
-          body_path: changelog
+          body_path: changelog/CHANGELOG.md
           files: |
             digicert_exporter_*
