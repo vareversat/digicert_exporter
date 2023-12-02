@@ -30,7 +30,7 @@ mock.json file). So no API calls will be initiated ;)
 
 ## How does it work ❓
 
-![](digicert_exporter_schema.png "Fig 1. Functioning diagram of the Digicert Exporter")
+![](readme_diagram.png "Fig 1. Functioning diagram of the Digicert Exporter")
 
 Each time the Prometheus server will query the exporter via a `POST /metrics` the exporter will fetch the data from the
 Digicert REST API.
