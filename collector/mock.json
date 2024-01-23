@@ -390,6 +390,56 @@
       "is_multi_year_plan": "1"
     },
     {
+      "id": 10000000,
+      "certificate": {
+        "id": 177479,
+        "serial_number": "4HLQLH7IHKBKUOCXZNZNT9MGGKLQP",
+        "common_name": "*.amazon.com",
+        "dns_names": [
+          "*.amazon.com",
+          "amazon.com"
+        ],
+        "valid_from": "2025-11-02",
+        "valid_till": "2025-11-02",
+        "days_remaining": 391,
+        "cert_validity": {
+          "years": 1
+        },
+        "signature_hash": "sha256"
+      },
+      "status": "expired",
+      "is_renewed": true,
+      "date_created": "2021-11-02T10:52:41+00:00",
+      "organization": {
+        "id": 11111111,
+        "name": "My Org."
+      },
+      "validity_years": 1,
+      "order_validity": {
+        "years": 1
+      },
+      "order_valid_till": "2024-11-02",
+      "disable_renewal_notifications": false,
+      "container": {
+        "id": 454737,
+        "name": "MY_CONTAINER",
+        "is_active": false
+      },
+      "product": {
+        "name_id": "ssl_basic",
+        "name": "Basic OV",
+        "type": "ssl_certificate"
+      },
+      "duplicates_count": 0,
+      "has_duplicates": false,
+      "reissues_count": 0,
+      "has_reissues": false,
+      "price": 788,
+      "product_name_id": "ssl_basic",
+      "number_of_sans": 2,
+      "is_multi_year_plan": "1"
+    },
+    {
       "id": 176250000,
       "certificate": {
         "id": 177479,
