@@ -9,13 +9,13 @@ jobs:
   go-lint:
     uses: ./.github/workflows/action.go.lint.yaml
     with:
-      go_version: '1.21.x'
+      go_version: '1.22.x'
   go-test:
     uses: ./.github/workflows/action.go.test.yaml
     with:
-      go_version: '1.21.x'
+      go_version: '1.22.x'
   go-build:
     needs: [ go-lint, go-test ]
     uses: ./.github/workflows/action.go.build.yaml
     with:
-      go_version: '1.21.x'
+      go_version: '1.22.x'
