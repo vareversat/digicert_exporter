@@ -1,3 +1,10 @@
+<p style="text-align: center;">
+  <a href="https://go.dev"><img src="https://img.shields.io/badge/go-white?logo=go&style=for-the-badge" alt="Go badge for digicert_exporter Github project"></a> 
+  <a href="https://github.com/vareversat/digicert_exporter/actions"><img src="https://img.shields.io/github/actions/workflow/status/vareversat/digicert_exporter/push.tag.yaml?logo=github&style=for-the-badge" alt="Build badge for digicert_exporter Github project"></a>
+  <a href="https://github.com/vareversat/digicert_exporter/releases"><img src="https://img.shields.io/github/v/tag/vareversat/digicert_exporter?label=version&logo=git&logoColor=white&style=for-the-badge" alt="Last release badge for digicert_exporter Github project"></a>
+  <a href="https://codecov.io/gh/vareversat/digicert_exporter/"><img src="https://img.shields.io/codecov/c/github/vareversat/digicert_exporter?logo=codecov&style=for-the-badge&token=5EK0Z47473" alt="Code coverage badge for digicert_exporter Github project"></a>
+</p>
+
 # Digicert Exporter 🔥
 
 Export [Digicert](https://www.digicert.com/) certificates information to [Prometheus](https://prometheus.io).
@@ -26,7 +33,7 @@ mock.json file). So no API calls will be initiated ;)
 
 2) **One of** these tool chains :
     - **Docker** (if you run only docker commands)
-    - **Go v1.21** with **Make**  (if you prefer run Make & Go commands)
+    - **Go v1.22** with **Make**  (if you prefer run Make & Go commands)
 
 ## How does it work ❓
 
