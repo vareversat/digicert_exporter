@@ -8,10 +8,10 @@ on:
 
 jobs:
   go-lint:
-    uses: ./.github/workflows/go.lint.action.yaml
+    uses: ./.github/workflows/action.go.lint.yaml
     with:
       go_version: '1.21.x'
   go-test:
-    uses: ./.github/workflows/go.test.action.yaml
+    uses: ./.github/workflows/action.go.test.yaml
     with:
       go_version: '1.21.x'
