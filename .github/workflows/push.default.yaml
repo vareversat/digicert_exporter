@@ -10,8 +10,8 @@ jobs:
   go-lint:
     uses: ./.github/workflows/action.go.lint.yaml
     with:
-      go_version: '1.21.x'
+      go_version: '1.22.x'
   go-test:
     uses: ./.github/workflows/action.go.test.yaml
     with:
-      go_version: '1.21.x'
+      go_version: '1.22.x'
