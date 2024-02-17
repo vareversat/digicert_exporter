@@ -12,6 +12,7 @@ jobs:
       go_version: '1.22.x'
   go-test:
     uses: ./.github/workflows/action.go.test.yaml
+    secrets: inherit
     with:
       go_version: '1.22.x'
   go-build:
