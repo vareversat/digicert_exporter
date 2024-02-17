@@ -46,6 +46,7 @@ func (c *DigicertCollector) FetchDigicertData() (*OrderList, error) {
 		// This one line implements the authentication required for the task.
 		req.Header.Add("X-DC-DEVKEY", c.digicertAPIKey)
 		req.Header.Add("Content-Type", "application/json")
+		req.Header.Add("User-Agent", "https://github.com/vareversat/digicert_exporter")
 
 		// Make request and show output.
 		client := &http.Client{}
