@@ -17,6 +17,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           output: CHANGELOG.md
+          onlyLastTag: true
       - name: 'Upload CHANGELOG.md'
         uses: actions/upload-artifact@v3
         with:
