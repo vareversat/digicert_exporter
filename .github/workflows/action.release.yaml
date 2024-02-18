@@ -41,6 +41,7 @@ jobs:
       - name: 'Download CHANGELOG artifacts'
         uses: actions/download-artifact@v4.1.2
         with:
+          path: changelog
           name: changelog
       - name: 'Generate Github release'
         uses: softprops/action-gh-release@v1
