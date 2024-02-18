@@ -32,8 +32,16 @@ jobs:
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
-      - name: 'Download all artifacts'
+      - name: 'Download binary artifacts'
         uses: actions/download-artifact@v4.1.2
+        with:
+          path: binaries
+          pattern: digicert_exporter_binary_*
+          merge-multiple: true
+      - name: 'Download CHANGELOG artifacts'
+        uses: actions/download-artifact@v4.1.2
+        with:
+          name: changelog
       - name: 'Generate Github release'
         uses: softprops/action-gh-release@v1
         with:

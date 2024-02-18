@@ -37,5 +37,5 @@ jobs:
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }}
-          path: binaries
+          name: digicert_exporter_binary_${{ matrix.os_small }}_${{ matrix.arch }}
+          path: digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }}
