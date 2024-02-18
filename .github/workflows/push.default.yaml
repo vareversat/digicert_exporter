@@ -2,9 +2,6 @@ name: Workflow - Default push
 
 on:
   push:
-    branches-ignore:
-      - main
-      - dev
 
 jobs:
   go-lint:
@@ -14,5 +11,10 @@ jobs:
   go-test:
     uses: ./.github/workflows/action.go.test.yaml
     secrets: inherit
+    with:
+      go_version: '1.22.x'
+  go-build:
+    needs: [ go-lint, go-test ]
+    uses: ./.github/workflows/action.go.build.yaml
     with:
       go_version: '1.22.x'
