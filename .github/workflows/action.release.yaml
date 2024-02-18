@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Generate CHANGELOG.md"
-        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        uses: heinrichreimer/action-github-changelog-generator@v2.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           output: CHANGELOG.md
