@@ -2,6 +2,8 @@ name: Workflow - Default push
 
 on:
   push:
+    branches-ignore:
+      - main
 
 jobs:
   go-lint:
