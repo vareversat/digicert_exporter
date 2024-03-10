@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.22.0 as build
+FROM golang:1.22.1 as build
 
 LABEL org.opencontainers.image.title="Digicert exporter Docker image"
 LABEL org.opencontainers.image.authors="dev@vareversat.fr"
