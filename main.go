@@ -24,6 +24,10 @@ var (
 		"digicert.url",
 		"Digicert API URL used to fetch data.",
 	).Default("https://www.digicert.com/services/v2/order/certificate").Envar("DIGICERT_URL").String()
+	sandboxMode = app.Flag(
+		"digicert.sandbox-mode",
+		"Use the mock.json file to test the exporter",
+	).Default("false").Envar("SANDBOX_MODE").Bool()
 	digicertAPIKey = app.Flag("digicert.api-key",
 		"Digicert API Key used to authentication.").Envar("DIGICERT_API_KEY").String()
 	digicertShowExpiredCertificates = app.Flag(
@@ -60,6 +64,7 @@ func main() {
 		logger,
 		*digicertURL,
 		*digicertAPIKey,
+		*sandboxMode,
 		*digicertShowExpiredCertificates,
 	)
 	if err != nil {

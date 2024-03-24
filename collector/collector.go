@@ -17,7 +17,7 @@ type DigicertCollector struct {
 	digicertAPIEndpoint     string
 	digicertAPIKey          string
 	showExpiredCertificates bool
-	useMockedData           bool
+	sandboxMode             bool
 	up                      *prometheus.Desc
 	scrapeDuration          *prometheus.Desc
 	certificateExpire       *prometheus.Desc
@@ -36,6 +36,7 @@ func (c *DigicertCollector) Describe(ch chan<- *prometheus.Desc) {
 func NewDigicertCollector(logger log.Logger,
 	digicertURL string,
 	digicertAPIKey string,
+	sandboxMode bool,
 	digicertShowExpiredCertificates bool) (*DigicertCollector, error) {
 
 	// Build the collector
@@ -43,7 +44,7 @@ func NewDigicertCollector(logger log.Logger,
 		digicertAPIEndpoint:     digicertURL,
 		digicertAPIKey:          digicertAPIKey,
 		showExpiredCertificates: digicertShowExpiredCertificates,
-		useMockedData:           digicertURL == "" && digicertAPIKey == "",
+		sandboxMode:             sandboxMode,
 		logger:                  logger,
 		up: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "api", "up"),
@@ -62,7 +63,7 @@ func NewDigicertCollector(logger log.Logger,
 		),
 	}
 
-	if !c.useMockedData && (digicertURL == "" || digicertAPIKey == "") {
+	if !c.sandboxMode && (digicertURL == "" || digicertAPIKey == "") {
 		level.Error(logger).
 			Log("msg", "Either DIGICERT_URL or DIGICERT_API_KEY is missing. Exiting")
 		os.Exit(1)
@@ -70,8 +71,8 @@ func NewDigicertCollector(logger log.Logger,
 		level.Info(logger).Log("msg", "Exporter started correctly")
 	}
 
-	if c.useMockedData {
-		level.Warn(logger).Log("msg", "Using mock configuration (mock.json will be used)")
+	if c.sandboxMode {
+		level.Warn(logger).Log("msg", "Using sandbox mode configuration (mock.json will be used)")
 	}
 
 	return c, nil
