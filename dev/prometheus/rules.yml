@@ -1,0 +1,35 @@
+groups:
+  - name: digicert_exporter
+    rules:
+      - alert: DigicertExporterMissing
+        expr: up{job="digicert_exporter"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Digicert Exporter is not responding"
+          description: "Digicert Exporter is not responding for 15s"
+      - alert: DigicertCertificateExpiration30days
+        expr: digicert_certificate_expire_timestamp_seconds - time() < 2592000 # 30 days
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Your Digicert certificate {{ $labels.certificate_common_name }} expire in one month"
+          description: "The certificate for the domain name {{ $labels.certificate_common_name }} from the {{ $labels.organization }} organization will expire in 30 days"
+      - alert: DigicertCertificateExpiration7days
+        expr: digicert_certificate_expire_timestamp_seconds - time() < 604800  # 30 days
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Your Digicert certificate {{ $labels.certificate_common_name }} expire in one week"
+          description: "The certificate for the domain name {{ $labels.certificate_common_name }} from the {{ $labels.organization }} organization will expire in 7 days"
+      - alert: DigicertCertificateExpiration6h
+        expr: digicert_certificate_expire_timestamp_seconds - time() < 21600  # 6 hours
+        for: 1h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Your Digicert certificate {{ $labels.certificate_common_name }} will expire soon !"
+          description: "The certificate for the domain name {{ $labels.certificate_common_name }} from the {{ $labels.organization }} organization will expire in **6 hours** !"

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  digicert_exporter:
+    container_name: digicert_exporter
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - SANDBOX_MODE=true
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: alertmanager
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: prometheus
+    volumes:
+      - ./dev/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./dev/prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ./dev/prometheus/data:/prometheus
+
+  grafana:
+    image: grafana/grafana:10.4.1
+    links:
+      - prometheus
+    container_name: grafana
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dev/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./dev/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./dev/grafana/data:/var/lib/grafana
+      - ./dev/grafana/digicert_exporter_dashboard.json:/var/lib/grafana/dashboards/digicert_exporter_dashboard.json
