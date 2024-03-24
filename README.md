@@ -28,9 +28,6 @@ In order to run this exporter, you need :
 1) A valid Digicert account **and** create an API
    key [here](https://www.digicert.com/secure/automation/api-keys/) with the **View Only** permission
 
-Tips : if you run the exporter with the flag `--digicert.url=""`, the Digicert API response will be mocked (via
-mock.json file). So no API calls will be initiated ;)
-
 2) **One of** these tool chains :
     - **Docker** (if you run only docker commands)
     - **Go v1.22** with **Make**  (if you prefer run Make & Go commands)
@@ -113,3 +110,4 @@ Here a slightly more detailed list of them :
 |              --digicert.url               | Digicert API URL used to fetch data     | `https://www.digicert.com/services/v2/order/certificate` | DIGICERT_URL                       |
 |            --digicert.api-key             | Digicert API Key used to authentication | `""`                                                     | DIGICERT_API_KEY                   |
 | --[no-]digicert.show-expired-certificates | Show expired certificate                | `false`                                                  | DIGICERT_SHOW_EXPIRED_CERTIFICATES |
+|       --[no-]digicert.sandbox-mode        | Use mock.json test file                 | `false`                                                  | SANDBOX_MODE                       |

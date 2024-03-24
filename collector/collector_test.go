@@ -17,10 +17,10 @@ func TestNewDigicertCollectorWithoutMockedData(t *testing.T) {
 	digicertAPIKey := "API_KEY"
 
 	// Create a new DigicertCollector
-	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true)
+	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, false, true)
 
 	assert.NoError(t, err)
-	assert.False(t, collector.useMockedData)
+	assert.False(t, collector.sandboxMode)
 }
 
 func TestNewDigicertCollectorWithMockedData(t *testing.T) {
@@ -30,10 +30,10 @@ func TestNewDigicertCollectorWithMockedData(t *testing.T) {
 	digicertAPIKey := ""
 
 	// Create a new DigicertCollector
-	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true)
+	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true, true)
 
 	assert.NoError(t, err)
-	assert.True(t, collector.useMockedData)
+	assert.True(t, collector.sandboxMode)
 }
 
 func TestUpdateMetricsApiDown(t *testing.T) {
@@ -42,7 +42,7 @@ func TestUpdateMetricsApiDown(t *testing.T) {
 	digicertAPIKey := "test"
 
 	// Create a new DigicertCollector
-	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true)
+	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, false, true)
 	assert.NoError(t, err)
 
 	promChan := make(chan prometheus.Metric)
@@ -68,8 +68,9 @@ func TestUpdateMetricsUse(t *testing.T) {
 	digicertAPIKey := ""
 
 	// Create a new DigicertCollector
-	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true)
+	collector, err := NewDigicertCollector(logger, digicertURL, digicertAPIKey, true, true)
 	assert.NoError(t, err)
+	assert.True(t, collector.sandboxMode)
 
 	promChan := make(chan prometheus.Metric)
 

@@ -14,9 +14,9 @@ func (c *DigicertCollector) FetchDigicertData() (*OrderList, error) {
 
 	var orderList OrderList
 
-	if c.useMockedData {
+	if c.sandboxMode {
 		// Open data file
-		jsonFile, err := os.Open("../mock.json")
+		jsonFile, err := os.Open("collector/mock.json")
 		if err != nil {
 			level.Error(c.logger).Log("err", fmt.Sprintf("cannot open json file : %s", err))
 			return nil, err
