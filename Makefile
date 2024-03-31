@@ -11,6 +11,11 @@ BINARY_NAME_UNIX = digicert_exporter.o
 # Main build target
 all: deps test build
 
+
+# Start the dev stack
+dev-stack:
+	docker compose up
+
 # Build the application
 build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOCMD) build -o $(BINARY_NAME_UNIX) -v
@@ -59,10 +64,6 @@ lint:
 coverage:
 	$(GOCMD) test -coverprofile='coverage.out' ./...
 	$(GOCMD) tool cover -html=coverage.out
-
-# Generate documentation using tools like godoc
-doc:
-	godoc -http=:6060
 
 # Perform a full code quality check (lint, tests, coverage)
 check: lint test coverage

@@ -78,6 +78,24 @@ make build || make build-win
 
 This command will generate an executable named `digicert_exporter.[o|exe]`
 
+You may also want to start the whole Grafana/Prometheus stack. It's easy. Just run
+
+```shell
+make dev-stack
+```
+
+The Grafana instance is now reachable from `http://localhost:3000` with a `prometheus` datasource, a `grafana` dashboard
+already
+configured and some alerts via the `alertmanager` component
+
+## Grafana, Prometheus & Alertmanager configuration 📁
+
+You can find pre-made conf files for each of these components here :
+
+- [Grafana dashboard](https://github.com/vareversat/blob/main/dev/grafana/digicert_exporter_dashboard.json)
+- [Prometheus scrapping configuration](https://github.com/vareversat/blob/main/dev/prometheus/prometheus.yml#L11)
+- [Alertmanager configuration](https://github.com/vareversat/blob/main/dev/prometheus/prometheus.yml#L4)
+
 ## Exporter's metrics 🧰
 
 This exporter makes available a bunch of metrics related to Digicert but also to the exporter itself :

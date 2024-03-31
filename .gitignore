@@ -28,3 +28,7 @@ go.work
 /build/
 /dist/
 /out/
+
+# Docker compose, ignore all data directories (except .gitkeep)
+dev/**/data/*
+!dev/**/data/.gitkeep
