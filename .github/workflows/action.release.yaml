@@ -33,13 +33,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: 'Download binary artifacts'
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           path: binaries
           pattern: digicert_exporter_binary_*
           merge-multiple: true
       - name: 'Download CHANGELOG artifacts'
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           path: changelog
           name: changelog
