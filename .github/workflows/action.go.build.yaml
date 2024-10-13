@@ -35,7 +35,7 @@ jobs:
       - name: 'Go build (matrix)'
         run: go build -o digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }} -v
       - name: 'Upload artifact'
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: digicert_exporter_binary_${{ matrix.os_small }}_${{ matrix.arch }}
           path: digicert_exporter_${{ matrix.os_small }}_${{ matrix.arch }}
