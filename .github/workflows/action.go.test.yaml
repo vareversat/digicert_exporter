@@ -16,7 +16,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v4.2.2
       - name: 'Setup Go action'
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5.1.0
         with:
           go-version: ${{ inputs.go_version }}
       - name: 'Go test (with coverage)'
