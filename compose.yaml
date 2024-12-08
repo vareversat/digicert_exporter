@@ -22,7 +22,7 @@ services:
       - ./dev/prometheus/data:/prometheus
 
   grafana:
-    image: grafana/grafana:10.4.13
+    image: grafana/grafana:10.4.14
     links:
       - prometheus
     container_name: grafana
