@@ -1,0 +1,20 @@
+name: Workflow - Lint, Test and Build Go project
+
+on:
+  push:
+
+jobs:
+  go-lint:
+    uses: vareversat/github-actions/.github/workflows/go.lint.yml@v1.2.2
+    with:
+      go_version: '1.22.x'
+  go-test:
+    uses: vareversat/github-actions/.github/workflows/go.test.yml@v1.2.2
+    secrets: inherit
+    with:
+      go_version: '1.22.x'
+  go-build:
+    needs: [ go-lint, go-test ]
+    uses: vareversat/github-actions/.github/workflows/go.build.yml@v1.2.2
+    with:
+      go_version: '1.22.x'
