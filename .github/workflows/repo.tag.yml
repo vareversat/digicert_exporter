@@ -28,4 +28,5 @@ jobs:
     needs: [ go-build ]
     uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.2.2
     with:
+      prerelease_suffix: rc
       artifacts_pattern: digicert_exporter_binary_*
