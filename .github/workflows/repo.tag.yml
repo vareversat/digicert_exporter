@@ -7,26 +7,26 @@ on:
 
 jobs:
   go-lint:
-    uses: vareversat/github-actions/.github/workflows/go.lint.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/go.lint.yml@v1.2.3
     with:
       go_version: '1.22.x'
   go-test:
-    uses: vareversat/github-actions/.github/workflows/go.test.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/go.test.yml@v1.2.3
     secrets: inherit
     with:
       go_version: '1.22.x'
   go-build:
     needs: [ go-lint, go-test ]
-    uses: vareversat/github-actions/.github/workflows/go.build.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/go.build.yml@v1.2.3
     with:
       go_version: '1.22.x'
   docker-build-push:
     needs: [ go-lint, go-test ]
-    uses: vareversat/github-actions/.github/workflows/docker.build-push.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/docker.build-push.yml@v1.2.3
     secrets: inherit
   release:
     needs: [ go-build ]
-    uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.2.3
     with:
       prerelease_suffix: rc
       artifacts_pattern: digicert_exporter_binary_*

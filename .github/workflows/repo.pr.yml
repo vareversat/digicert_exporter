@@ -3,5 +3,5 @@ on:
   - pull_request
 jobs:
   release:
-    uses: vareversat/github-actions/.github/workflows/global.labeler.yml@v1.2.2
+    uses: vareversat/github-actions/.github/workflows/global.labeler.yml@v1.2.3
     secrets: inherit
