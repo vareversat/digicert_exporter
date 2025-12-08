@@ -7,7 +7,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/digicert_exporter
 
-FROM alpine:3.22
+FROM alpine:3.23
 COPY --from=build /app/digicert_exporter /usr/bin/local/digicert_exporter
 
 CMD [ "/usr/bin/local/digicert_exporter" ]
