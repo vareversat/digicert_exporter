@@ -10,7 +10,7 @@ services:
       - SANDBOX_MODE=true
 
   alertmanager:
-    image: prom/alertmanager:v0.34.0
+    image: prom/alertmanager:v0.34.1
     container_name: alertmanager
 
   prometheus:
